@@ -1,0 +1,250 @@
+# Slatewave -- Starship prompt
+# https://getslatewave.com
+#
+# A two-line prompt on a slate foundation with a teal signature. Mirrors the
+# layout of slatewave-omp (oh-my-posh) and shares its palette with the wider
+# Slatewave family (VSCode, Obsidian, Alacritty, Ghostty, iTerm2). Editor,
+# terminal, and prompt speak the same visual language.
+#
+# All glyphs are written as \uXXXX escapes inside double-quoted strings so the
+# file is ASCII-safe on disk. Glyphs require a Nerd Font in your terminal.
+
+"$schema" = "https://starship.rs/config-schema.json"
+
+palette = "slatewave"
+add_newline = true
+
+format = """
+[╭─](fg:teal_300)\
+$os\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$git_commit\
+$python\
+$nodejs\
+$golang\
+$rust\
+$java\
+$cmake\
+$docker_context\
+$fill\
+$cmd_duration\
+$battery\
+$memory_usage\
+$time\
+$line_break\
+[╰─](fg:teal_300)$character"""
+
+# ---------------------------------------------------------------------------
+# Palette -- canonical Slatewave colors + chrome extensions shared with the
+# oh-my-posh prompt, so the two render identically side-by-side.
+# ---------------------------------------------------------------------------
+
+[palettes.slatewave]
+bg_inset     = "#0f172a"
+bg_elevated  = "#1e293b"
+bg_raised    = "#21252b"
+bg_base      = "#282c34"
+chrome_dark  = "#2c313a"
+chrome_light = "#3e4451"
+
+fg_faint   = "#64748b"
+fg_muted   = "#94a3b8"
+fg_subtle  = "#cbd5e1"
+fg_default = "#e2e8f0"
+fg_bright  = "#f1f5f9"
+
+teal_200 = "#99f6e4"
+teal_300 = "#5eead4"
+teal_600 = "#0f766e"
+teal_700 = "#0e7490"
+cyan_fg  = "#ecfeff"
+
+sky_400    = "#38bdf8"
+rose_400   = "#fb7185"
+red_bright = "#ef5350"
+purple     = "#b388ff"
+amber_400  = "#fbbf24"
+amber_700  = "#b45309"
+orange     = "#ff4500"
+git_ink    = "#193549"
+
+# ---------------------------------------------------------------------------
+# Left prompt
+# ---------------------------------------------------------------------------
+
+[os]
+disabled = false
+format = "[ $symbol ]($style)"
+style = "fg:fg_default bg:chrome_light"
+
+# Nerd Font OS glyphs.  (powerline right arrow) trails into the next
+# segment's background so the chain reads as a single pill.
+[os.symbols]
+Macos    = ""
+Linux    = ""
+Windows  = ""
+Ubuntu   = ""
+Arch     = ""
+Debian   = ""
+Fedora   = ""
+Alpine   = ""
+Redhat   = ""
+Raspbian = ""
+NixOS    = ""
+Unknown  = ""
+
+[username]
+show_always = false
+format = "[ $user ]($style)"
+style_user = "fg:fg_default bg:chrome_light"
+style_root = "fg:rose_400 bg:chrome_light"
+
+[hostname]
+ssh_only = true
+format = "[   $hostname ]($style)"
+style = "fg:fg_default bg:chrome_light"
+
+[directory]
+format = "[](fg:chrome_light bg:chrome_dark)[ $path$read_only ]($style)"
+style = "fg:teal_300 bg:chrome_dark"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " "
+read_only_style = "fg:rose_400 bg:chrome_dark"
+home_symbol = ""
+
+[git_branch]
+format = "[](fg:chrome_dark bg:sky_400)[ $symbol $branch ]($style)"
+style = "fg:git_ink bg:sky_400"
+symbol = ""
+truncation_length = 25
+truncation_symbol = "…"
+
+[git_status]
+format = "([$all_status$ahead_behind ]($style))"
+style = "fg:git_ink bg:sky_400"
+conflicted = " "
+ahead      = " ${count}"
+behind     = " ${count}"
+diverged   = " ${ahead_count} ${behind_count}"
+up_to_date = ""
+untracked  = " ${count}"
+stashed    = " ${count}"
+modified   = " ${count}"
+staged     = " ${count}"
+renamed    = " ${count}"
+deleted    = " ${count}"
+
+[git_state]
+format = "\\([$state( $progress_current/$progress_total)]($style)\\) "
+style = "fg:amber_400 bg:sky_400"
+rebase = "REBASE"
+merge = "MERGE"
+revert = "REVERT"
+cherry_pick = "PICK"
+bisect = "BISECT"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+
+[git_commit]
+format = "[ $hash$tag ]($style)"
+style = "fg:git_ink bg:sky_400"
+only_detached = true
+tag_disabled = false
+tag_symbol = " "
+
+# ---------------------------------------------------------------------------
+# Language runtimes -- render after git (sky bg) on chrome_light bg. Leading
+# arrow uses fg:sky_400 so the common (in-repo) case chains cleanly.
+# ---------------------------------------------------------------------------
+
+[python]
+format = "[](fg:sky_400 bg:chrome_light)[ $symbol $version(\\($virtualenv\\)) ]($style)"
+style = "fg:teal_300 bg:chrome_light"
+symbol = ""
+
+[nodejs]
+format = "[](fg:sky_400 bg:chrome_light)[ $symbol $version ]($style)"
+style = "fg:teal_300 bg:chrome_light"
+symbol = ""
+
+[golang]
+format = "[](fg:sky_400 bg:chrome_light)[ $symbol $version ]($style)"
+style = "fg:teal_300 bg:chrome_light"
+symbol = ""
+
+[rust]
+format = "[](fg:sky_400 bg:chrome_light)[ $symbol $version ]($style)"
+style = "fg:teal_300 bg:chrome_light"
+symbol = ""
+
+[java]
+format = "[](fg:sky_400 bg:chrome_light)[ $symbol $version ]($style)"
+style = "fg:teal_300 bg:chrome_light"
+symbol = ""
+
+[cmake]
+format = "[](fg:sky_400 bg:teal_600)[ $symbol $version ]($style)"
+style = "fg:cyan_fg bg:teal_600"
+symbol = ""
+
+[docker_context]
+format = "[](fg:sky_400 bg:chrome_light)[ $symbol $context ]($style)"
+style = "fg:teal_300 bg:chrome_light"
+symbol = ""
+only_with_files = true
+
+# ---------------------------------------------------------------------------
+# Right prompt
+# ---------------------------------------------------------------------------
+
+[fill]
+symbol = " "
+
+[cmd_duration]
+min_time = 500
+show_milliseconds = false
+format = "[  $duration ]($style)"
+style = "fg:fg_subtle"
+
+[battery]
+format = "[ $symbol$percentage ]($style)"
+
+[[battery.display]]
+threshold = 100
+charging_symbol    = " "
+discharging_symbol = " "
+style = "fg:cyan_fg bg:teal_700"
+
+[[battery.display]]
+threshold = 30
+charging_symbol    = " "
+discharging_symbol = " "
+style = "fg:cyan_fg bg:amber_700"
+
+[memory_usage]
+disabled = false
+threshold = -1
+format = "[ $symbol ${ram_pct} ]($style)"
+style = "fg:fg_muted bg:chrome_light"
+symbol = ""
+
+[time]
+disabled = false
+time_format = "%-I:%M %p"
+format = "[  $time ]($style)"
+style = "fg:teal_300 bg:chrome_dark"
+
+# ---------------------------------------------------------------------------
+# Second line -- teal arrow on success, rose arrow on non-zero exit
+# ---------------------------------------------------------------------------
+
+[character]
+success_symbol = "[❯](fg:teal_300)"
+error_symbol   = "[❯](fg:red_bright)"
+vimcmd_symbol  = "[❮](fg:teal_200)"
